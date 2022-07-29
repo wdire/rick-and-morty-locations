@@ -15,7 +15,7 @@ const GET_LOCATIONS = gql`
         type
         dimension
         residents {
-          name
+          id
         }
         created
       }

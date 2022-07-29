@@ -1,10 +1,13 @@
 import LocationsList from "../components/LocationsList";
+import MainContainer from "../components/MainContainer";
 
 export default function Home() {
   return (
     <>
-      <div></div>
-      <LocationsList />
+      <MainContainer>
+        {/* TODO; Add Title */}
+        <LocationsList />
+      </MainContainer>
     </>
   );
 }
