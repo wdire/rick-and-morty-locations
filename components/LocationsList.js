@@ -25,6 +25,11 @@ const LocationsList = () => {
       getLocations();
     }
 
+    //If "page" on the url is greater than the total pages
+    if (currentPage > 1 && locations?.info?.pages === null) {
+      router.replace("/");
+    }
+
     if (locations?.info) {
       setInfo(locations?.info);
     }
@@ -63,7 +68,7 @@ const LocationsList = () => {
 
   const mainTable = classNames(
     "bg-slate-600/60 border-white/20 border-2 border-solid rounded-xl shadow-sm",
-    "w-full overflow-scroll border-collapse"
+    "w-full border-collapse"
   );
 
   const handlePaginationClick = (page) => {
