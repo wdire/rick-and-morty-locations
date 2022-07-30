@@ -59,18 +59,18 @@ const GET_LOCATIONS = gql`
  */
 
 /**
- * Hook Response
- * @typedef {Object} HookResponse
- * @property {Locations} locations
+ * Locations Response
+ * @typedef {Object} LocationsResponse
+ * @property {Locations} data
  * @property {boolean} loading
  */
 
 /**
- * Pagination
+ *
  * @param {Object} props
  * @param {number} props.page - Which page to fetch
  * @param {FilterLocation} props.filter - Filtering the response
- * @returns {HookResponse}
+ * @returns {LocationsResponse}
  */
 
 export const useGetLocations = ({ page, filter }) => {
@@ -81,5 +81,5 @@ export const useGetLocations = ({ page, filter }) => {
     },
   });
 
-  return { locations: data?.locations, loading };
+  return { data: data?.locations, loading };
 };

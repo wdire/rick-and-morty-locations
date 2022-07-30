@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useGetLocations } from "../hooks/locations/useGetLocations";
 import Loading from "./Loading";
@@ -8,7 +9,7 @@ import Pagination from "./Pagination";
 const LocationsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [info, setInfo] = useState({});
-  const { locations, loading } = useGetLocations({
+  const { data: locations, loading } = useGetLocations({
     page: currentPage,
   });
 
@@ -34,8 +35,8 @@ const LocationsList = () => {
 
   return (
     <>
-      {/* TODO; Add Title */}
       <div className={mainContainer}>
+        <div className="text-white text-2xl pb-1">Locations</div>
         <div className={mainTable}>
           <table className="w-full">
             <thead className="table w-full">
