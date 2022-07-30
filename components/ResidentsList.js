@@ -16,7 +16,7 @@ const ResidentsList = () => {
     <>
       {((!loading && !residents) || residents?.length === 0) && (
         <div className="text-white text-lg text-center">
-          This location doesn't have residents
+          This location doesn&apos;t have residents
         </div>
       )}
       <div className="text-white text-2xl pb-1 z-20 relative text-center">

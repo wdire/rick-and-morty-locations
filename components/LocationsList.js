@@ -28,7 +28,7 @@ const LocationsList = () => {
     if (locations?.info) {
       setInfo(locations?.info);
     }
-  }, [locations, routeChecked]);
+  }, [locations, routeChecked, getLocations]);
 
   useEffect(() => {
     if (router.query?.page && Array.isArray(router.query?.page)) {
@@ -54,7 +54,7 @@ const LocationsList = () => {
     } else {
       setCurrentPage(1);
     }
-  }, [router?.query]);
+  }, [router]);
 
   const mainContainer = classNames(
     "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 px-1",
