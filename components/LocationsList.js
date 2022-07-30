@@ -1,26 +1,63 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetLocations } from "../hooks/locations/useGetLocations";
 import Loading from "./Loading";
 import LocationsItem from "./LocationItem";
 import Pagination from "./Pagination";
 
 const LocationsList = () => {
+  const router = useRouter();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [info, setInfo] = useState({});
-  const { data: locations, loading } = useGetLocations({
+  const routeChecked = useRef(false);
+  const {
+    data: locations,
+    loading,
+    getData: getLocations,
+  } = useGetLocations({
     page: currentPage,
   });
 
   useEffect(() => {
+    if (routeChecked) {
+      getLocations();
+    }
+
     if (locations?.info) {
       setInfo(locations?.info);
     }
-  }, [locations]);
+  }, [locations, routeChecked]);
+
+  useEffect(() => {
+    if (router.query?.page && Array.isArray(router.query?.page)) {
+      const pageSplit = router.query?.page[0].split("=");
+
+      if (
+        pageSplit.length === 2 &&
+        pageSplit[0] === "page" &&
+        !isNaN(pageSplit[1])
+      ) {
+        const queryPage = Number(pageSplit[1]);
+
+        if (0 >= queryPage) {
+          router.replace("/");
+          return;
+        }
+
+        setCurrentPage(queryPage);
+        routeChecked.current = true;
+      } else {
+        router.replace("/");
+      }
+    } else {
+      setCurrentPage(1);
+    }
+  }, [router?.query]);
 
   const mainContainer = classNames(
-    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20",
+    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 px-1",
     "w-full sm:w-[640px] lg:w-[840px] xl:w-[940px]"
   );
 
@@ -31,6 +68,7 @@ const LocationsList = () => {
 
   const handlePaginationClick = (page) => {
     setCurrentPage(page);
+    router.push("/page=" + page);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 
 const GET_LOCATIONS = gql`
   query GetLocations($page: Int, $filter: FilterLocation) {
@@ -63,6 +63,7 @@ const GET_LOCATIONS = gql`
  * @typedef {Object} LocationsResponse
  * @property {Locations} data
  * @property {boolean} loading
+ * @property {import("@apollo/client").LazyQueryExecFunction} getData
  */
 
 /**
@@ -74,12 +75,12 @@ const GET_LOCATIONS = gql`
  */
 
 export const useGetLocations = ({ page, filter }) => {
-  const { data, loading } = useQuery(GET_LOCATIONS, {
+  const [getData, { data, loading }] = useLazyQuery(GET_LOCATIONS, {
     variables: {
       page: page,
       filter: filter,
     },
   });
 
-  return { data: data?.locations, loading };
+  return { data: data?.locations, loading, getData };
 };

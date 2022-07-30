@@ -15,6 +15,7 @@ html,
 body {
   position: relative;
   height: 100%;
+  overflow: auto;
 }
 
 .main-container {
@@ -78,7 +79,7 @@ td {
 
 .pagination-item {
   margin: 0 2px;
-  @apply bg-green-700 text-white rounded-md cursor-pointer w-9 h-9 flex justify-center items-center transition-colors duration-300;
+  @apply bg-green-700 text-white rounded-md cursor-pointer w-9 h-9 flex justify-center items-center transition-colors duration-300 select-none;
 }
 
 .pagination-item:hover {
@@ -87,6 +88,10 @@ td {
 
 .pagination-item.active {
   @apply bg-green-600;
+}
+
+.pagination-item.disabled {
+  @apply bg-green-800;
 }
 
 @media only screen and (max-width: 640px) {

@@ -10,10 +10,17 @@ const Pagination = ({ info, currentPage, onClick }) => {
   return (
     <>
       <div className="flex mt-5 justify-center">
+        <div
+          key={"pagination_item_prev"}
+          className={"pagination-item" + (!info?.prev ? " disabled" : "")}
+          onClick={() => info?.prev && onClick(info?.prev)}
+        >
+          &#60;
+        </div>
         {Array.from({ length: info?.pages }, (v, i) => i + 1).map((page) => {
           return (
             <div
-              key={"pagination_item " + page}
+              key={"pagination_item_" + page}
               className={
                 "pagination-item" + (currentPage === page ? " active" : "")
               }
@@ -23,6 +30,13 @@ const Pagination = ({ info, currentPage, onClick }) => {
             </div>
           );
         })}
+        <div
+          key={"pagination_item_next"}
+          className={"pagination-item" + (!info?.next ? " disabled" : "")}
+          onClick={() => info?.next && onClick(info?.next)}
+        >
+          &#62;
+        </div>
       </div>
     </>
   );
