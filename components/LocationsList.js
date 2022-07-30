@@ -1,11 +1,22 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetLocations } from "../hooks/locations/useGetLocations";
+import Loading from "./Loading";
 import LocationsItem from "./LocationItem";
+import Pagination from "./Pagination";
 
 const LocationsList = () => {
-  const [page, setPage] = useState(1);
-  const locations = useGetLocations({ page: page });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [info, setInfo] = useState({});
+  const { locations, loading } = useGetLocations({
+    page: currentPage,
+  });
+
+  useEffect(() => {
+    if (locations?.info) {
+      setInfo(locations?.info);
+    }
+  }, [locations]);
 
   const mainContainer = classNames(
     "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20",
@@ -16,6 +27,10 @@ const LocationsList = () => {
     "bg-slate-600/60 border-white/20 border-2 border-solid rounded-xl shadow-sm",
     "w-full overflow-scroll border-collapse"
   );
+
+  const handlePaginationClick = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -32,21 +47,31 @@ const LocationsList = () => {
                 <th></th>
               </tr>
             </thead>
-            <tbody className="block h-[350px] max-h-full overflow-y-scroll">
-              {locations?.results?.map((location) => {
-                return (
-                  <LocationsItem
-                    key={"location_" + location?.id}
-                    location={location}
-                  ></LocationsItem>
-                );
-              })}
-
-              {/* TODO; Add Loading */}
+            <tbody className="relative block h-[350px] max-h-full overflow-y-scroll">
+              {!loading &&
+                locations?.results?.map((location) => {
+                  return (
+                    <LocationsItem
+                      key={"location_" + location?.id}
+                      location={location}
+                    ></LocationsItem>
+                  );
+                })}
             </tbody>
           </table>
+          {loading && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <Loading />
+            </div>
+          )}
         </div>
-        <div>{/* TODO; Add Pagination */}</div>
+        <div>
+          <Pagination
+            info={info}
+            currentPage={currentPage}
+            onClick={handlePaginationClick}
+          />
+        </div>
       </div>
     </>
   );

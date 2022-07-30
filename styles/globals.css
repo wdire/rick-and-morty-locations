@@ -74,6 +74,19 @@ td {
   text-align: left;
 }
 
+.pagination-item {
+  margin: 0 2px;
+  @apply bg-green-700 text-white rounded-md cursor-pointer w-9 h-9 flex justify-center items-center transition-colors duration-300;
+}
+
+.pagination-item:hover {
+  @apply bg-green-600;
+}
+
+.pagination-item.active {
+  @apply bg-green-600;
+}
+
 @media only screen and (max-width: 640px) {
   th,
   td {
